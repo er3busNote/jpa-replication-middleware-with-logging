@@ -1,4 +1,4 @@
-package com.opensw.master.global.error.api;
+package com.opensw.master.global.error.presentation;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
@@ -19,11 +19,11 @@ import java.util.HashMap;
 @Slf4j
 @ControllerAdvice
 @ResponseBody
-public class ErrorExceptionController {
+public class ErrorExceptionHandler {
 
     private final ErrorService errorService;
 
-    public ErrorExceptionController(ErrorService errorService) {
+    public ErrorExceptionHandler(ErrorService errorService) {
         this.errorService = errorService;
     }
 

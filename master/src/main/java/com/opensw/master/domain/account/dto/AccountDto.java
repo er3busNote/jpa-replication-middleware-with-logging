@@ -1,5 +1,6 @@
 package com.opensw.master.domain.account.dto;
 
+import com.opensw.master.domain.account.domain.Account;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,4 +23,12 @@ public class AccountDto {
 
     @NotBlank(message = "핸드폰 번호가 존재하지 않습니다")
     private String phone;
+
+    public Account toEntity() {
+        return Account.builder()
+                .username(username)
+                .email(email)
+                .phone(phone)
+                .build();
+    }
 }

@@ -2,6 +2,7 @@ package com.opensw.master.account;
 
 import com.opensw.master.domain.account.application.AccountService;
 import com.opensw.master.domain.account.domain.Account;
+import com.opensw.master.domain.account.dto.AccountDto;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -25,18 +26,15 @@ public class AccountServiceTest {
         String username = "byoungJu";
         String email = "byoungJu@email.com";
         String phone = "010-5145-9132";
-        Account data = Account.builder()
-                .username(username)
-                .email(email)
-                .phone(phone)
-                .build();
+        AccountDto accountDto = new AccountDto(username, email, phone);
 
         // When (실행)
-        Account account = this.accountService.saveAccount(data);
+        Account account = this.accountService.saveAccount(accountDto);
         Optional<Account> optionalAccount = accountService.getAccount(account.getId());
 
         // Then (검증)
-        Assertions.assertThat(optionalAccount.get().getId()).isEqualTo(data.getId());
-        Assertions.assertThat(optionalAccount.get().getUsername()).isEqualTo(data.getUsername());
+        Assertions.assertThat(optionalAccount.get().getUsername()).isEqualTo(accountDto.getUsername());
+        Assertions.assertThat(optionalAccount.get().getEmail()).isEqualTo(accountDto.getEmail());
+        Assertions.assertThat(optionalAccount.get().getPhone()).isEqualTo(accountDto.getPhone());
     }
 }

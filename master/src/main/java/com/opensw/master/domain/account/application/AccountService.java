@@ -2,6 +2,7 @@ package com.opensw.master.domain.account.application;
 
 import com.opensw.master.domain.account.dao.AccountRepository;
 import com.opensw.master.domain.account.domain.Account;
+import com.opensw.master.domain.account.dto.AccountDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +18,7 @@ public class AccountService {
         return this.accountRepository.findById(id);
     }
 
-    public Account saveAccount(Account account) {
-        return this.accountRepository.save(account);
+    public Account saveAccount(AccountDto accountDto) {
+        return this.accountRepository.save(accountDto.toEntity());
     }
 }

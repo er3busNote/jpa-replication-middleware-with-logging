@@ -4,11 +4,9 @@ package com.opensw.master.domain.account.api;
 import com.opensw.master.domain.account.application.AccountService;
 import com.opensw.master.domain.account.domain.Account;
 import com.opensw.master.domain.account.dto.AccountDto;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.Errors;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -40,7 +38,7 @@ public class AccountController {
     public ResponseEntity storeAccount(
         final @Valid @RequestBody AccountDto accountDto
     ) {
-        return new ResponseEntity(HttpStatus.OK);
+        return ResponseEntity.ok(accountService.saveAccount(accountDto));
     }
 
     private ResponseEntity badRequest(Errors errors) {
