@@ -14,7 +14,4 @@ public class MasterProperties {
 
     @NotEmpty
     private String uri;
-
-    @NotEmpty
-    private String subscribe;
 }

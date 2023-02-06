@@ -12,14 +12,14 @@ import java.util.concurrent.Executor;
 @Service
 public class LoggingService {
 
-    private static final Logger logger = LoggerFactory.getLogger(LoggingService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(LoggingService.class);
 
     @Autowired
     private Executor executor;
 
     public void innerMethod(int i) {
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-        logger.info("async ransom int = " + i);
+        LOGGER.info("async ransom int = " + i);
     }
 
     public void innerMethodCall(int i) {

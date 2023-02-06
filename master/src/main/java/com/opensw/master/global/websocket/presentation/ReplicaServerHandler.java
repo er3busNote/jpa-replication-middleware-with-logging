@@ -12,7 +12,7 @@ import java.util.List;
 
 @Slf4j
 @Component
-public class ReplicaHandler extends TextWebSocketHandler {
+public class ReplicaServerHandler extends TextWebSocketHandler {
 
     private static List<WebSocketSession> list = new ArrayList<>();
 

@@ -1,0 +1,1 @@
+java -jar master\build\libs\master-0.0.1-SNAPSHOT.jar --spring.config.location=classpath:/,file:./master/src/main/resources/application.yml --spring.profiles.active=master
