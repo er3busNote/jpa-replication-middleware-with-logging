@@ -16,7 +16,6 @@ public interface AccountRepository extends JpaRepository<Account, Integer> {
     List<Account> findByIdGreaterThanEqual(Integer id);
     Long countBy();
 
-    @Transactional
     @Modifying
     @Query(value = "INSERT INTO account (id, username, email, phone, created_at, updated_at) VALUES (:id, :username, :email, :phone, :createdAt, :updatedAt)", nativeQuery = true)
     void insertAccount(@Param("id") int id, @Param("username") String username, @Param("email") String email, @Param("phone") String phone, @Param("createdAt") LocalDateTime createdAt, @Param("updatedAt") LocalDateTime updatedAt);

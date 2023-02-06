@@ -46,7 +46,11 @@ public class ReplicaClientService {
                 public void handleTextMessage(WebSocketSession session, TextMessage message) {
                     String payload = message.getPayload();
                     log.info("received message - " + payload);
-                    saveReplica(payload);
+                    try {
+                        saveReplica(payload);
+                    } catch (Exception e) {
+                        log.error("Exception SQL replica message", e);
+                    }
                 }
 
                 @Override

@@ -4,8 +4,10 @@ import com.opensw.master.domain.account.dao.AccountRepository;
 import com.opensw.master.domain.account.domain.Account;
 import com.opensw.master.domain.account.dto.AccountDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,7 +31,12 @@ public class AccountService {
         return this.accountRepository.save(accountDto.toEntity());
     }
 
+    @Transactional
     public void saveReplica(Account account) {
-        this.accountRepository.insertAccount(account.getId(), account.getUsername(), account.getEmail(), account.getPhone(), account.getCreatedAt(), account.getUpdatedAt());
+        try {
+            this.accountRepository.insertAccount(account.getId(), account.getUsername(), account.getEmail(), account.getPhone(), account.getCreatedAt(), account.getUpdatedAt());
+        } catch (DataIntegrityViolationException exception) {
+            throw new IllegalArgumentException();
+        }
     };
 }
