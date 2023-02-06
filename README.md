@@ -14,7 +14,7 @@ Active-Standby를 위한 DB 이중화 근본 기술 개발
 ## Background & Purpose
 - When there is a failure in the main server, the application service itself supports duplication of data without a backup service that supports DB redundancy, and it aims to provide a service that replicates data in a cycle of 1 second and supports the fallback function.
 - Utilizing the logback function supported by the spring boot app itself, preparing a plan to check the failure point in real time by executing logging every 0.1 second.
-- DB dualization method: Currently, only primary key replication configuration is allowed
+- DB dualization method: Currently, only allows replication configurations for primary keys that have the AUTO_INCREMENT attribute.
 
 ## Quick Start
 1. git clone https://github.com/er3busNote/jpa-replication-middleware-with-logging.git
@@ -36,6 +36,9 @@ spring:
         hbm2ddl:
           #auto: create		# -> To automatically run database migrations on startup
           auto: validate
+
+master-server:
+  uri: ws://127.0.0.1:9080/replica		# -> Setting when a query is needed from the Slave Server side to the Master Server side
 ```
 3. create build file: `build.bat`
 4. start application file: `start-master.bat` & `start-slave.bat`

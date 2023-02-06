@@ -1,6 +1,10 @@
 package com.opensw.master.global.websocket.presentation;
 
+import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
+import com.opensw.master.domain.account.domain.Account;
+import com.opensw.master.domain.account.application.AccountService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
@@ -14,15 +18,26 @@ import java.util.List;
 @Component
 public class ReplicaServerHandler extends TextWebSocketHandler {
 
+    @Autowired
+    AccountService accountService;
+
     private static List<WebSocketSession> list = new ArrayList<>();
 
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
         String payload = message.getPayload();
-        log.info("payload : " + payload);
+        log.info("payload : " + message.getPayload());
 
+        Integer number = Integer.valueOf(payload);
+        List<Account> listAccount = this.accountService.getLastIds(number);
+        log.info("payload : " + listAccount);
+
+        Gson gson = new Gson();
         for(WebSocketSession sess: list) {
-            sess.sendMessage(message);
+            for (Account account: listAccount) {
+                TextMessage sendMsg = new TextMessage(gson.toJson(account));
+                sess.sendMessage(sendMsg);
+            }
         }
     }
 

@@ -2,27 +2,28 @@ package com.opensw.master.global.task.application;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
-import java.sql.Timestamp;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.Executor;
+import javax.annotation.PostConstruct;
+import java.util.Random;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 @Service
+@Profile("master")
 public class LoggingService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(LoggingService.class);
 
-    @Autowired
-    private Executor executor;
-
-    public void innerMethod(int i) {
-        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-        LOGGER.info("async ransom int = " + i);
-    }
-
-    public void innerMethodCall(int i) {
-        CompletableFuture.runAsync(()->innerMethod(i), executor);   // Async
+    @PostConstruct
+    public void init() {
+        try {
+            Executors.newSingleThreadScheduledExecutor().scheduleAtFixedRate(() -> {
+                LOGGER.info("async ransom int = " + new Random().ints(1000, 9999).findAny().getAsInt());
+            }, 100, 100, TimeUnit.MILLISECONDS);    // 0.1초 뒤 바로 실행
+        } catch (Exception e) {
+            LOGGER.error("Exception while accessing logging", e);
+        }
     }
 }
