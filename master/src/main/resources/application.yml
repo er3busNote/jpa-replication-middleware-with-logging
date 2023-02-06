@@ -11,44 +11,60 @@ server:
 spring:
   profiles:
     group:
-      dev: common, development
-      prod: common, production
+      master: common, master
+      slave: common, slave
 
 ---
 spring:
   config:
     activate:
-      on-profile: development
+      on-profile: master, test
+  datasource:
+    username: root
+    password: root
+    url: jdbc:mariadb://${server.host.mariadb}:3309/replica_master
+    driver-class-name: org.mariadb.jdbc.Driver
   jpa:
     properties:
       hibernate:
         hbm2ddl:
-          auto: create
----
-spring:
-  config:
-    activate:
-      on-profile: production
-  jpa:
-    properties:
-      hibernate:
-        hbm2ddl:
+          #auto: create
           auto: validate
 ---
 spring:
   config:
     activate:
+      on-profile: slave
+  datasource:
+    username: root
+    password: root
+    url: jdbc:mariadb://${server.host.mariadb}:3309/replica_slave
+    driver-class-name: org.mariadb.jdbc.Driver
+  jpa:
+    properties:
+      hibernate:
+        hbm2ddl:
+          #auto: create
+          auto: validate
+
+master-server:
+  url: ws://127.0.0.1:${port}/replica
+  subscribe: /app/chat
+---
+spring:
+  config:
+    activate:
       on-profile: common, test
+#  task:
+#    execution:
+#      pool:
+#        core-size: 5   # 기본 스레드 수
+#        max-size: 10    # 최대 스레드 수
   jackson:
     serialization:
       fail-on-empty-beans: false
     deserialization:
       fail-on-unknown-properties: true   # 속성이 없는 경우 오류 발생 (true) -> 무시 (false)
-  datasource:
-    username: root
-    password: root
-    url: jdbc:mariadb://${server.host.mariadb}:3309/replica
-    driver-class-name: org.mariadb.jdbc.Driver
   jpa:
     properties:
       hibernate:
@@ -56,6 +72,8 @@ spring:
         dialect: org.hibernate.dialect.MySQL5InnoDBDialect
 
 logging:
+  file:
+    path: ./logs
   level:
 #    com:
 #      zaxxer:
