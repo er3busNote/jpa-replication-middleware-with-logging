@@ -25,7 +25,7 @@ public class AccountServiceTest {
         // Given (준비)
         String username = "byoungJu";
         String email = "byoungJu@email.com";
-        String phone = "010-5145-9132";
+        String phone = "010-XXXX-XXXX";
         AccountDto accountDto = new AccountDto(username, email, phone);
 
         // When (실행)
